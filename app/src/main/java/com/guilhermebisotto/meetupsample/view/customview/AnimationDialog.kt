@@ -73,11 +73,11 @@ class AnimationDialog(private var context: Context) : BaseDialogHelper() {
             override fun onAnimationStart(p0: Animator?) {}
         })
 
-        dialogCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        dialogCheckBox.setOnCheckedChangeListener { _, _ -> //isChecked ->
 
-            TransitionManager.beginDelayedTransition(dialogContainer)
-            if (isChecked) dialogText.visibility = View.GONE
-            else dialogText.visibility = View.VISIBLE
+            // TransitionManager.beginDelayedTransition(dialogContainer)
+            // if (isChecked) dialogText.visibility = View.GONE
+            // else dialogText.visibility = View.VISIBLE
         }
 
         TransitionManager.beginDelayedTransition(dialogContainer)
@@ -92,6 +92,7 @@ class AnimationDialog(private var context: Context) : BaseDialogHelper() {
             dialogAnimation.tag = "error"
             dialogAnimation.repeatMode = LottieDrawable.RESTART
             dialogAnimation.repeatCount = 0
+            // Caso a animação tenha mais de um status no mesmo json, é possível configurar os frames usados para cada status
             dialogAnimation.setMinAndMaxFrame(427, 841)
             h.post(runnable)
         }
