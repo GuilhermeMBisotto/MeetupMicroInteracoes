@@ -19,7 +19,6 @@
             android:name=".view.activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.CheckActivity" />
         <activity
             android:name=".view.activity.MessageActivity"
             android:theme="@style/AppTheme.Translucent" />

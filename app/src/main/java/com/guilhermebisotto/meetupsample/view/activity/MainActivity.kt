@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var adapter: HomeAdapter
-    private var needsToUpdate = true
-    private var itemsCount = 0
 
     private companion object Params {
         const val STIFFNESS = SpringForce.STIFFNESS_LOW
@@ -68,23 +66,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun setupObservables() {
         homeViewModel.events.observe(this, Observer {
-            swipeRefreshLayoutHome.isRefreshing = false
             adapter.updateItems(it)
 
             launch {
-                if (needsToUpdate) {
-                    if (itemsCount > 20) {
-                        needsToUpdate = false
-
-                        delay(2_00)
-                        TransitionManager.beginDelayedTransition(mainContainer)
-                        mainLoader.visibility = View.GONE
-                    } else {
-                        delay(2_00)
-                        itemsCount += 1
-                        homeViewModel.getItems(itemsCount)
-                    }
-                }
+                delay(3_00)
+                TransitionManager.beginDelayedTransition(mainContainer)
+                mainLoader.visibility = View.GONE
             }
         })
     }
@@ -102,15 +89,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
 
         swipeRefreshLayoutHome.setOnRefreshListener {
+            swipeRefreshLayoutHome.isRefreshing = false
             launch {
                 adapter.updateItems(listOf())
-                delay(3_00)
                 TransitionManager.beginDelayedTransition(mainContainer)
                 mainLoader.visibility = View.VISIBLE
 
-                itemsCount = 0
-                needsToUpdate = true
-                homeViewModel.getItems(itemsCount)
+                delay(3_000)
+                homeViewModel.getItems(20)
             }
         }
     }
@@ -126,9 +112,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             mainLoader.playAnimation()
 
             delay(3_000)
-
-            itemsCount += 1
-            homeViewModel.getItems(itemsCount)
+            homeViewModel.getItems(20)
         }
     }
 
